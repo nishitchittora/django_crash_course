@@ -6,4 +6,3 @@ from .models import *
 admin.site.register(CrashCourse)
 admin.site.register(CourseChapter)
 admin.site.register(ChapterSection)
-admin.site.register(SectionContent)
