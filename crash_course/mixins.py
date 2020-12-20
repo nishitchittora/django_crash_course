@@ -5,6 +5,18 @@ from ckeditor_uploader.fields import RichTextUploadingField
 from .managers import StatusMixinManager
 
 
+class TitleSlugMixin(models.Model):
+    title = models.CharField(max_length=128, blank=True, null=True)
+    slug = models.SlugField(max_length=128)
+
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.title)
+        super(StatusMixin, self).save(*args, **kwargs)
+
+    class Meta:
+        abstract = True
+
+
 class StatusMixin(models.Model):
     is_active = models.BooleanField("active", default=True, blank=False, null=False)
     is_deleted = models.BooleanField("deleted", default=False, blank=False, null=False)
