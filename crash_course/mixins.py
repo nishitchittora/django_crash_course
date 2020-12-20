@@ -7,7 +7,7 @@ from .managers import StatusMixinManager
 
 class TitleSlugMixin(models.Model):
     title = models.CharField(max_length=128, blank=True, null=True)
-    slug = models.SlugField(max_length=128)
+    slug = models.SlugField(max_length=12, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
