@@ -2,7 +2,8 @@ from django.shortcuts import render
 from django.views import View
 from crash_course.models import CrashCourse, CourseChapter, ChapterSection
 from django.http import JsonResponse
-from .serializers import CrashCourseSerializer, CourseChapterSerializer
+from .serializers import CrashCourseSerializer, CourseChapterSerializer, \
+                            ChapterSectionListSerializer, ChapterSectionDetailSerializer
 # Create your views here.
 
 class CrashCourseList(View):
@@ -20,10 +21,16 @@ class CourseChapterList(View):
 
 
 class ChapterSectionList(View):
-    queryset = ChapterSection.objects.all()
-    context_object_name = 'chapter_section'
+    def get(self, request, course_slug, chapter_slug):
+        chapter = CourseChapter.objects.filter(slug=chapter_slug, course__slug=course_slug).first()
+        queryset = chapter.chaptersection_set.all()
+        serializer_data = ChapterSectionListSerializer(queryset, many=True).data
+        return JsonResponse({'chapter_section': serializer_data})
 
 
 class SectionContentList(View):
-    queryset = ChapterSection.objects.all()
-    context_object_name = 'section_content'
+    def get(self, request, course_slug, chapter_slug, section_slug):
+        chapter = CourseChapter.objects.filter(slug=chapter_slug, course__slug=course_slug).first()
+        queryset = chapter.chaptersection_set.filter(slug=section_slug)
+        serializer_data = ChapterSectionDetailSerializer(queryset).data
+        return JsonResponse({'section_content': serializer_data})

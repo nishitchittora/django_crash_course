@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CrashCourse, CourseChapter
+from .models import CrashCourse, CourseChapter, ChapterSection
 
 class CrashCourseSerializer(serializers.ModelSerializer):
     no_of_chapter = serializers.SerializerMethodField()
@@ -17,3 +17,17 @@ class CourseChapterSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseChapter
         fields = ('id', 'title', 'slug', 'course')
+
+
+class ChapterSectionListSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ChapterSection
+        fields = ('id', 'title', 'slug', )
+
+
+class ChapterSectionDetailSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = ChapterSection
+        fields = ('id', 'title', 'slug', 'description')
