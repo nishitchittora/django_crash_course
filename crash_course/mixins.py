@@ -1,17 +1,18 @@
 from django.db import models
 from django.core.validators import RegexValidator
 from ckeditor_uploader.fields import RichTextUploadingField
+from django.template.defaultfilters import slugify
 
 from .managers import StatusMixinManager
 
 
 class TitleSlugMixin(models.Model):
     title = models.CharField(max_length=128, blank=True, null=True)
-    slug = models.SlugField(max_length=12, blank=True, null=True)
+    slug = models.SlugField(max_length=128, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        super(StatusMixin, self).save(*args, **kwargs)
+        super(TitleSlugMixin, self).save(*args, **kwargs)
 
     class Meta:
         abstract = True
