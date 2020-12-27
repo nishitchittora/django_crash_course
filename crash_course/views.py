@@ -34,3 +34,11 @@ class SectionContentList(View):
         queryset = chapter.chaptersection_set.filter(slug=section_slug)
         serializer_data = ChapterSectionDetailSerializer(queryset).data
         return JsonResponse({'section_content': serializer_data})
+
+
+class StarMarkUpdate(View):
+    def get(self, request, course_slug):
+        course = CrashCourse.objects.filter(slug=chapter_slug).first()
+        queryset = chapter.chaptersection_set.filter(slug=section_slug)
+        serializer_data = ChapterSectionDetailSerializer(queryset).data
+        return JsonResponse({'section_content': serializer_data})
